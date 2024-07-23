@@ -23,7 +23,7 @@ use std::sync::Arc;
 const RPC_URL: &str = "https://sepolia-rollup.arbitrum.io/rpc";
 
 /// Deployed pragram address.
-const STYLUS_PROGRAM_ADDRESS: &str = "";
+const STYLUS_PROGRAM_ADDRESS: &str = "0x59738fc55d4286c4adc9b7cf3aa0efba25d22d33";
 
 #[tokio::main]
 async fn main() -> eyre::Result<()> {
@@ -46,8 +46,7 @@ async fn main() -> eyre::Result<()> {
     let provider = Provider::<Http>::try_from(rpc_url)?;
     let address: Address = program_address.parse()?;
 
-    // let privkey = read_secret_from_file(&priv_key_path)?;
-    let privkey = "".to_string();
+    let privkey = std::env::var("PRIVATE_KEY").unwrap();
     let wallet = LocalWallet::from_str(&privkey)?;
     let chain_id = provider.get_chainid().await?.as_u64();
     let client = Arc::new(SignerMiddleware::new(
