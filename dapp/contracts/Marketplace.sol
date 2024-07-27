@@ -99,7 +99,7 @@ contract Marketplace {
         // ensure the value inputed is same as the product amount listed
         if(products[_productID].amount != _amount){ revert Errors.InvalidPrice();}
         // ensure the value sent is the amount listed
-        if(msg.value >= _amount){ revert Errors.InsufficientFunds();}
+        if(msg.value <= _amount){ revert Errors.InsufficientFunds();}
         orders[_productID] = Order(_productID, _amount, msg.sender, _buyerID);
         products[_productID].state = ProductState.Escrowed;
         emit OrderPlaced(_productID, _amount, msg.sender);
